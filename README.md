@@ -11,6 +11,14 @@ open browser:  http://localhost:3000
 
 
 ### Routes
-- default(none): client
-- command: session/story breakup
-- control: customized text sent
+- default(none): i.e. http://localhost:3000
+
+client
+
+- command: i.e. http://localhost:3000/command
+
+session/story breakup
+
+- control: i.e. http://localhost:3000/control
+
+customized text sent
