@@ -1,0 +1,25 @@
+body {
+  font: 18px monospace, cursive;
+}
+#container {
+  margin: 30px;
+}
+form {
+  padding: 0; text-align: center;
+}
+form input {
+  box-sizing: border-box;
+  border: 2px solid gray;
+  height: 50px; width: 100%; display: block;
+}
+button {
+  width: 100%; height: 50px;
+  padding: 10px;  margin: 10px 0;  border: none;
+  display: block;
+  font: 20px monospace, cursive;
+  color: white;  background: rgb(80, 200, 200);
+}
+ul { padding: 0; text-align: center;}
+ul button {
+  height: auto;
+}

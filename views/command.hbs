@@ -1,0 +1,40 @@
+<div id='container'>
+   <button id="button1">command1</button>
+   <button id="button2">command2</button>
+   <button id="button3">command3</button>
+   <button id="button4">command4</button>
+</div>
+
+<script type="text/javascript">
+    const hostlight = '192.168.0.12:8080';
+    const socket= new WebSocket('ws://' + hostlight);
+    const COMMAND1 = '-----command1-----';
+    const COMMAND2 = '-----command2-----';
+    const COMMAND3 = '-----command3-----';
+    const COMMAND4 = '-----command4-----';
+
+    socket.onopen = function() {
+        document.getElementById("button1").addEventListener("click", function(){
+            console.log('on 1');
+            socket.send(COMMAND1);
+        });
+        document.getElementById("button2").addEventListener("click", function(){
+            console.log('on 2');
+            socket.send(COMMAND2);
+        });
+        document.getElementById("button3").addEventListener("click", function(){
+            console.log('on 3');
+            socket.send(COMMAND3);
+        });
+        document.getElementById("button4").addEventListener("click", function(){
+            console.log('on 4');
+            socket.send(COMMAND4);
+        });
+    };
+    socket.onmessage = function (evt) {
+        console.log('on mess', evt);
+    };
+    socket.onclose = function() {
+        console.log("Connection is closed...");
+    };
+</script>
