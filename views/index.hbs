@@ -1,21 +1,50 @@
 <div id='container'>
-	<h1>Hey! This is {{title}}.</h1>
-  <h2 id='command'>Please wait for the comming instructions</h2>
-	<p>Rules: one word only, no space, no special characters.</p>
-	<form id="wordinput">
-	     <input id="word" autocomplete="off" />
-	     <button type="submit" id="button">Send</button>
-  </form>
+  <ul id='sequence'>
+      <li>
+          <div>
+            <h2 class="sequence">Welcome to</h2>
+            <h1 class="sequence" style="padding: 10px 0;">Googie</h1>
+            <h2 class="sequence">the art ificial word speaker</h2>
+            <div class="nextArrow">
+                <i class="down"></i>
+            </div>
+          </div>
+      </li>
+      <li>
+          <div>
+            <h1 class="sequence" style="padding: 10px 0;">Googie</h1>
+            <h1>Please wait for the comming instructions</h2>
+            <div class="nextArrow">
+                <i class="down"></i>
+            </div>
+          </div>
+      </li>
+      <li>
+          <div id="sessionCommand">
+            <div>Now Begin</div>
+            <p>Some Rules: one word only, no space, no special characters.</p>
+            <div class="nextArrow">
+                <i class="down"></i>
+            </div>
+          <div>
+      </li>
+      <li>
+          <form id="wordinput">
+               <input id="word" autocomplete="off" />
+               <button type="submit" id="button">Send</button>
+          </form>
+      </li>
+  </ul>
 </div>
 
-
+<script type="text/javascript" src="javascripts/indexClient.js" ></script>
 <script type="text/javascript">
    const NON_SPACE_SPECIALCHA=/\d|\W/g;
    const COMMAND1 = '-----command1-----';
    const COMMAND2 = '-----command2-----';
    const COMMAND3 = '-----command3-----';
    const COMMAND4 = '-----command4-----';
-   const hostlight = '192.168.0.12:8080';
+   const hostlight = 'localhost:8080';
    const socket= new WebSocket('ws://' + hostlight);
    socket.onopen = function() {
        document.getElementById("wordinput").addEventListener("submit", function(e){
@@ -37,13 +66,13 @@
        if (evt.data.startsWith('-----')) {
            console.log('----------on mess----------', evt.data);
            if (evt.data === COMMAND1) {
-               document.getElementById('command').innerHTML = 'First, I need you to send me an adjective!';
+               document.getElementById('sessionCommand').innerHTML = 'First, I need you to send me an adjective!';
            } else if (evt.data === COMMAND2) {
-               document.getElementById('command').innerHTML = 'Great! Now give me a noun.';
+               document.getElementById('sessionCommand').innerHTML = 'Great! Now give me a noun.';
            } else if (evt.data === COMMAND3) {
-               document.getElementById('command').innerHTML = 'Awesome job! Now just a random word!';
+               document.getElementById('sessionCommand').innerHTML = 'Awesome job! Now just a random word!';
            } else if (evt.data === COMMAND4) {
-               document.getElementById('command').innerHTML = 'You are done, thank you!<from Stream and Yao>';
+               document.getElementById('sessionCommand').innerHTML = 'You are done, thank you!<from Stream and Yao>';
            }
        }
    };

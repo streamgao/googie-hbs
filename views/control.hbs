@@ -1,5 +1,5 @@
 <div id='container'>
-  <ul id='btns'>
+  <ul id='control'>
     <button>Hi. Welcome to</button>
     <button>Googie.</button>
     <button>I'm your new art-ificial word speaker today.</button>
@@ -32,7 +32,7 @@
 const hostlight = 'localhost:8080';
 const socket= new WebSocket('ws://' + hostlight);
 socket.onopen = function() {
-    document.getElementById("btns").addEventListener('click', function(evt) {
+    document.getElementById("control").addEventListener('click', function(evt) {
         evt.preventDefault();
         const tar = evt.target;
         const inputVal = tar.innerHTML;
