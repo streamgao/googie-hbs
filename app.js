@@ -128,7 +128,7 @@ setInterval(() => {
     if (wordsBuffer.length) {
         console.log('words buffer: ', wordsBuffer);
         const wordToSend = wordsBuffer.shift();
-        wss.clients.forEach(function each(client) {
+        wss.clients.forEach(client => {
             if (client.readyState === WebSocket.OPEN) {
                 client.send(wordToSend);
             }

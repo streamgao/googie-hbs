@@ -11,11 +11,10 @@ document.getElementById('sequence').addEventListener('touchend', e => {
         listEle.nextElementSibling.style.display = 'flex';
         listEle.nextElementSibling.classList.add('fadeInAnimation');
 
-        listEle.classList.add('fadeOutAnimation');
+        // listEle.classList.add('fadeOutAnimation');
         listEle.style.display = 'none';
     }
 });
-
 
 
 
