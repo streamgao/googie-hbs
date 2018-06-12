@@ -12,8 +12,7 @@
       </li>
       <li>
           <div>
-            <h1 class="sequence" style="padding: 10px 0;">Googie</h1>
-            <h1>Please wait for the comming instructions</h2>
+            <h1>Please wait for the comming instructions</h1>
             <div class="nextArrow">
                 <i class="down"></i>
             </div>
@@ -21,62 +20,23 @@
       </li>
       <li>
           <div id="sessionCommand">
-            <div>Now Begin</div>
-            <p>Some Rules: one word only, no space, no special characters.</p>
+            <h1>Now Begin</h1><br>
+            <h3>Session 1</h3>
+            <h3>Rules: one word only, no space, no special characters.</h3>
             <div class="nextArrow">
                 <i class="down"></i>
             </div>
           <div>
       </li>
       <li>
-          <form id="wordinput">
-               <input id="word" autocomplete="off" />
-               <button type="submit" id="button">Send</button>
-          </form>
+          <div id="input">
+              <form id="wordinput">
+                   <input id="word" autocomplete="off" />
+                   <button type="submit" id="button">Send</button>
+              </form>
+          </div>
       </li>
   </ul>
 </div>
 
 <script type="text/javascript" src="javascripts/indexClient.js" ></script>
-<script type="text/javascript">
-   const NON_SPACE_SPECIALCHA=/\d|\W/g;
-   const COMMAND1 = '-----command1-----';
-   const COMMAND2 = '-----command2-----';
-   const COMMAND3 = '-----command3-----';
-   const COMMAND4 = '-----command4-----';
-   const hostlight = 'localhost:8080';
-   const socket= new WebSocket('ws://' + hostlight);
-   socket.onopen = function() {
-       document.getElementById("wordinput").addEventListener("submit", function(e){
-           e.preventDefault();
-           const inputVal = document.getElementById("word").value;
-           console.log('.input', inputVal);
-           if (inputVal.match(NON_SPACE_SPECIALCHA)) {
-               window.alert('the word cannot contain any number or mark.\nPlease submit a valid word!');
-               document.getElementById("word").value = '';
-               return false;
-           } else {
-               socket.send(inputVal);
-           }
-           return false;
-       }, false);
-   };
-   socket.onmessage = function (evt) {
-       console.log('on mess', evt.data);
-       if (evt.data.startsWith('-----')) {
-           console.log('----------on mess----------', evt.data);
-           if (evt.data === COMMAND1) {
-               document.getElementById('sessionCommand').innerHTML = 'First, I need you to send me an adjective!';
-           } else if (evt.data === COMMAND2) {
-               document.getElementById('sessionCommand').innerHTML = 'Great! Now give me a noun.';
-           } else if (evt.data === COMMAND3) {
-               document.getElementById('sessionCommand').innerHTML = 'Awesome job! Now just a random word!';
-           } else if (evt.data === COMMAND4) {
-               document.getElementById('sessionCommand').innerHTML = 'You are done, thank you!<from Stream and Yao>';
-           }
-       }
-   };
-   socket.onclose = function() {
-       console.log("Connection is closed...");
-   };
-</script>

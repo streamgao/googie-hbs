@@ -45,7 +45,7 @@ button {
 
 /* ------ client ------- */
 ul#sequence li {
-  background: red; margin: 0;
+  margin: 0;
   height: 100vh; width: 100%;
   top: 0; left: 0;
 	justify-content: center;
@@ -62,14 +62,16 @@ ul#sequence li:nth-child(1) {
 }
 ul#sequence li:nth-child(2) {
     z-index: 3;
+    display: none;
 }
 ul#sequence li:nth-child(3) {
     z-index: 2;
+    display: none;
 }
-ul#sequence li:nth-child(3) {
+ul#sequence li:nth-child(4) {
     z-index: 1;
+    display: none;
 }
-
 
 ul#sequence li div {
     font-family: monospace, cursive;
@@ -114,6 +116,22 @@ ul#sequence li div {
 }
 
 /* ------ animations ------- */
+.fadeInAnimation {
+  animation: fadeInBottom 5s;
+  -o-animation: fadeInBottom 5s;
+  -webkit-animation: fadeInBottom 5s;
+  -moz-animation: fadeInBottom 5s;
+}
+.fadeOutAnimation {
+  animation-direction: reverse;
+  -webkit-animation-direction: reverse;
+
+  animation: fadeInBottom 5s;
+  -o-animation: fadeInBottom 5s;
+  -webkit-animation: fadeInBottom 5s;
+  -moz-animation: fadeInBottom 5s;
+}
+
 @keyframes fadeInBottom {
     from { opacity: 0; }
     to   { opacity: 1; }
