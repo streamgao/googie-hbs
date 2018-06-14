@@ -5,8 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
-const contrlRouter = require('./routes/control');
-const commandRouter = require('./routes/command');
+const adminRouter = require('./routes/admin');
 
 const app = express();
 
@@ -21,8 +20,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/control', contrlRouter);
-app.use('/command', commandRouter);
+app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -52,75 +50,32 @@ const WebSocket = require('ws'),
 let wordsBuffer = [];
 wordsBuffer = ['hi', 'this', 'is', 'googie'];
 let INTERVAL = 1000;
-
-const COMMAND1 = '-----command1-----';
-const COMMAND2 = '-----command2-----';
-const COMMAND3 = '-----command3-----';
-const COMMAND4 = '-----command4-----';
-const INTERVAL_COMMAND = '***';
-
+// const INTERVAL_COMMAND = '***';
 
 wss.on('connection', (ws, req) => {
-	const ip = req.connection.remoteAddress;
-  console.log('ip....', ip);
-  // connectedClients.push(ip);
-	ws.on('message', (message) => {
- 		console.log(message);
-    const allClients = wss.clients;
-    if (message === COMMAND1) {
-        console.log('message, command1', message);
-        // for (var i = 1; i < allClients.length; i++) {
-        //    if (allClients[i] !== ws && allClients[i].readyState === WebSocket.OPEN) {
-        //        allClients[i].send(COMMAND1);
-        //    }
-        // } // don't send to yao
-        wss.clients.forEach(function each(client) {
-            if (client !== ws && client.readyState === WebSocket.OPEN) {
-                client.send(COMMAND1);
-            }
-        });
-    } else if (message === COMMAND2) {
-        console.log('message, command2', message);
-        wss.clients.forEach(function each(client) {
-            if (client !== ws && client.readyState === WebSocket.OPEN) {
-                client.send(COMMAND2);
-            }
-        });
-        // for (var i = 1; i < allClients.length; i++) {
-        //    if (allClients[i] !== ws && allClients[i].readyState === WebSocket.OPEN) {
-        //        allClients[i].send(COMMAND2);
-        //    }
-        // } // don't send you yao
-    } else if (message === COMMAND3) {
-        console.log('message, command3', message);
-        wss.clients.forEach(function each(client) {
-            if (client !== ws && client.readyState === WebSocket.OPEN) {
-                client.send(COMMAND3);
-            }
-        });
-        // for (var i = 1; i < allClients.length; i++) {
-        //    if (allClients[i] !== ws && allClients[i].readyState === WebSocket.OPEN) {
-        //        allClients[i].send(COMMAND3);
-        //    }
-        // } // don't send to yao
-    } else if (message === COMMAND4) {
-        console.log('message, command4', message);
-        // for (var i = 1; i < allClients.length; i++) {
-        //    if (allClients[i] !== ws && allClients[i].readyState === WebSocket.OPEN) {
-        //        allClients[i].send(COMMAND4);
-        //    }
-        // } // don't send to yao
-        wss.clients.forEach(function each(client) {
-            if (client !== ws && client.readyState === WebSocket.OPEN) {
-                client.send(COMMAND4);
-            }
-        });
-    } else if (message.indexOf(INTERVAL_COMMAND) !== -1) {
-        INTERVAL = parseInt(message.slice(3)) || 10;
-    } else if (typeof message === 'string') {
-        wordsBuffer.push(message);
-    }
-	});
+  	const ip = req.connection.remoteAddress;
+    console.log('new connection ip: ', ip);
+    // connectedClients.push(ip);
+  	ws.on('message', message => {
+        const msg = JSON.parse(message);
+        // const allClients = wss.clients;
+        if (msg.sessionInstruction && msg.sessionInstruction.length) {
+            wss.clients.forEach(function each(client) {
+                if (client !== ws && client.readyState === WebSocket.OPEN) {
+                    client.send(message);
+                }
+            });
+            // for (var i = 1; i < allClients.length; i++) {
+            //    if (allClients[i] !== ws && allClients[i].readyState === WebSocket.OPEN) {
+            //        allClients[i].send(COMMAND2);
+            //    }
+            // } // don't send you yao
+        // } else if (message.indexOf(INTERVAL_COMMAND) !== -1) {
+        //     INTERVAL = parseInt(message.slice(3)) || 10;
+        } else if (msg.textFly && msg.textFly.length) {
+            wordsBuffer.push(msg.textFly);
+        }
+  	});
 });
 
 // limit, up speed is INTERVAL ms
