@@ -1,0 +1,78 @@
+<div id='container' style='padding: 10px'>
+  <form id='sessionInstruction'>
+       <!--input id='instruction' autocomplete='off' /-->
+       <textarea name='message' autocomplete='off' rows='10' style='width: 90%'>session instruction</textarea>
+       <button type='submit' id='sessionInsBtn'>Send new session instruction</button>
+  </form>
+
+  <form id='customizedText'>
+       <!--input id='text' autocomplete='off' /-->
+       <textarea name='message' autocomplete='off' rows='10' style='width: 90%'>customized text</textarea>
+       <button type='submit' id='cusTextBtn'>Send customized text</button>
+  </form>
+    ------------------------
+    ------------------------
+    ------------------------
+  <ul id='control'>
+    <button>Hi. Welcome to</button>
+    <button>Googie.</button>
+    <button>I'm your new art-ificial word speaker today.</button>
+    <button>My intelligence is artificial,</button>
+    <button>but I’m really personable.</button>
+    <button>Oh I've got loads of best mates,</button>
+    <button>I guess you could call me a people person.</button>
+    <button>You are at dancehack now, </button>
+    <button>a two-day hackthon where dancers and technologistttttttttttttt...##$%$!#$#$!%$#</button>
+    <button>I lost my lexicon,</button>
+    <button>I cannot find enough words to speak.</button>
+    <button>I need people to sends words to me.</button>
+    ------------------------
+    <button>Please connect to wifi: 'kinevez_test_5g'</button>
+    <button>Password: 12345678</button>
+    <button>In your broswer, go to: http://192.168.0.12:3000</button>
+    ------------------------
+    <button>Sorry, I'm dead</button>
+    ------------------------
+    <button>I'm offline. The wifi sucks, please be patient</button>
+  </ul>
+</div>
+
+<script type='text/javascript'>
+const hostlight = '206.189.162.188:8080';
+const socket= new WebSocket('ws://' + hostlight);
+socket.onopen = function() {
+    document.getElementById('control').addEventListener('click', evt => {
+        evt.preventDefault();
+        const tar = evt.target;
+        const inputVal = tar.innerHTML;
+        console.log(tar, '....input....', inputVal);
+        socket.send(inputVal);
+    });
+
+    document.getElementById('sessionInstruction').addEventListener('submit', evt => {
+        evt.preventDefault();
+        const sessionInstruction = document.querySelector('#sessionInstruction textarea') && document.querySelector('#sessionInstruction textarea').value;
+        const message = {
+            sessionInstruction
+        };
+        socket.send(JSON.stringify(message));
+    });
+
+    document.getElementById('customizedText').addEventListener('submit', evt => {
+        evt.preventDefault();
+        const textFly = document.querySelector('#customizedText textarea') && document.querySelector('#customizedText textarea').value;
+        const message = {
+            textFly
+        };
+        socket.send(JSON.stringify(message));
+    });
+};
+
+socket.onmessage = function (evt) {
+    console.log(evt.data);
+};
+
+socket.onclose = function() {
+    console.log('Connection is closed...');
+};
+</script>
