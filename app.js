@@ -58,6 +58,7 @@ wss.on('connection', (ws, req) => {
     // connectedClients.push(ip);
   	ws.on('message', message => {
         const msg = JSON.parse(message);
+        // console.log('mes coming', message);
         // const allClients = wss.clients;
         if (msg.sessionInstruction && msg.sessionInstruction.length) {
             wss.clients.forEach(function each(client) {
