@@ -23,7 +23,7 @@ document.getElementById('sequence').addEventListener('click', e => {
 
 /* -----------socket----------- */
 const NON_SPACE_SPECIALCHA=/\d|\W/g;
-const hostlight = '172.142.21.148:8080';
+const hostlight = '206.189.162.188:8080';
 // '206.189.162.188:8080';
 
 
@@ -51,7 +51,6 @@ socket.onopen = () => {
     });
 
     document.addEventListener('keydown', e => {  // enter code
-        // e.preventDefault();
         if ( e.keyCode === 13 ) {
             sendWord(true);
         }
@@ -68,7 +67,7 @@ socket.onmessage = evt => {
         msg = JSON.parse(evt.data);
         if (msg.sessionInstruction && msg.sessionInstruction.length) {
             document.getElementById('sessionCommand').innerHTML = msg.sessionInstruction;
-            
+
             const lists = document.querySelectorAll('#sequence li');
             lists.forEach( li => {
                 li.style.display = 'none';
@@ -82,20 +81,8 @@ socket.onmessage = evt => {
             document.getElementById('instructionInInput').innerHTML = msg.sessionInstruction;
         }
     } catch (e) {
-        console.log('..not session command..', evt.data);
+        console.log('..something wrong here..', evt.data);
     }
-    // if (evt.data.startsWith('-----')) {
-    //     console.log('----------on command----------', evt.data);
-    //     if (evt.data === COMMAND1) {
-    //         document.getElementById('sessionCommand').innerHTML = 'First, I need you to send me an adjective!';
-    //     } else if (evt.data === COMMAND2) {
-    //         document.getElementById('sessionCommand').innerHTML = 'Great! Now give me a noun.';
-    //     } else if (evt.data === COMMAND3) {
-    //         document.getElementById('sessionCommand').innerHTML = 'Awesome job! Now just a random word!';
-    //     } else if (evt.data === COMMAND4) {
-    //         document.getElementById('sessionCommand').innerHTML = 'You are done, thank you!<from Stream and Yao>';
-    //     }
-    // }
 };
 socket.onclose = () => {
     console.log('Connection is closed...');

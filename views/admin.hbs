@@ -18,17 +18,13 @@
     <button>I'm your new art-ificial word speaker today.</button>
     <button>My intelligence is artificial,</button>
     <button>but I’m really personable.</button>
-    <button>Oh I've got loads of best mates,</button>
+    <button>Oh I've got loads of best mates</button>
     <button>I guess you could call me a people person.</button>
-    <button>You are at dancehack now, </button>
-    <button>a two-day hackthon where dancers and technologistttttttttttttt...##$%$!#$#$!%$#</button>
     <button>I lost my lexicon,</button>
     <button>I cannot find enough words to speak.</button>
     <button>I need people to sends words to me.</button>
     <div class='separator'></div>
-    <button>Please connect to wifi: 'kinevez_test_5g'</button>
-    <button>Password: 12345678</button>
-    <button>In your broswer, go to: http://192.168.0.12:3000</button>
+    <button>In your broswer, go to: http://206.189.162.188:3000</button>
     <div class='separator'></div>
     <button>Sorry, I'm dead</button>
     <div class='separator'></div>
@@ -37,16 +33,18 @@
 </div>
 
 <script type='text/javascript'>
-const hostlight = '172.142.21.148:8080';
+const hostlight = '206.189.162.188:8080';
 const socket= new WebSocket('ws://' + hostlight);
 socket.onopen = function() {
     document.getElementById('control').addEventListener('click', evt => {
         evt.preventDefault();
-        const textFly = evt.target.innerHTML;
-        const message = {
-            textFly
-        };
-        socket.send(JSON.stringify(message));
+        if ( evt.target.nodeName === 'BUTTON' ) {
+            const textFly = evt.target.innerText;
+            const message = {
+                textFly
+            };
+            socket.send(JSON.stringify(message));
+        }
     });
 
     document.getElementById('sessionInsBtn').addEventListener('click', evt => {

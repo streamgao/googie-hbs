@@ -49,7 +49,7 @@ const WebSocket = require('ws'),
 // let connectedClients=[];
 let wordsBuffer = [];
 wordsBuffer = ['hi', 'this', 'is', 'googie'];
-let INTERVAL = 1000;
+let INTERVAL = 100;
 // const INTERVAL_COMMAND = '***';
 
 wss.on('connection', (ws, req) => {
