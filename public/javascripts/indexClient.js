@@ -20,7 +20,7 @@ document.getElementById('sequence').addEventListener('touchend', e => {
 
 /* -----------socket----------- */
 const NON_SPACE_SPECIALCHA=/\d|\W/g;
-const hostlight = 'localhost:8080';
+const hostlight = '206.189.162.188:8080';
 
 const socket= new WebSocket('ws://' + hostlight);
 socket.onopen = () => {
@@ -30,12 +30,11 @@ socket.onopen = () => {
         console.log('.textFly..', textFly);
         if (textFly.match(NON_SPACE_SPECIALCHA)) {
             window.alert('the word cannot contain any number or mark.\nPlease submit a valid word!');
-            document.getElementById('word').value = '';
-            return false;
         } else {
             const msg = { textFly };
             socket.send(JSON.stringify(textFly));
         }
+        document.getElementById('word').value = '';
         return false;
     }, false);
 };
