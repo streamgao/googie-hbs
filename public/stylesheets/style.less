@@ -28,12 +28,14 @@ button {
   width: auto;
   display: inline-block;
 }
-.admin input {
-  width: auto;
-}
-.admin .adminCommand {
-    width: 45%; height: auto;  min-height: 40px;
-    display: inline-block; margin: 10px;
+.admin {
+    input {
+      width: auto;
+    }
+    .adminCommand {
+        width: 45%; height: auto;  min-height: 40px;
+        display: inline-block; margin: 10px;
+    }
 }
 
 .separator {
@@ -43,62 +45,68 @@ button {
 }
 /* ------ next arrow ------- */
 .nextArrow {
-  margin: 30px auto;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  bottom: 50px; left: 0;
-  width: 100%;
-  position: fixed;
-}
-.nextArrow i{
-  display: inline-block;
-  padding: 30px;
-  border: solid black;
-  border-width: 0 3px 3px 0;
-  transform: rotate(45deg);
-  -webkit-transform: rotate(45deg);
+    margin: 30px auto;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    bottom: 50px; left: 0;
+    width: 100%;
+    position: fixed;
+
+    i {
+      display: inline-block;
+      padding: 30px;
+      border: solid black;
+      border-width: 0 3px 3px 0;
+      transform: rotate(45deg);
+      -webkit-transform: rotate(45deg);
+
+      animation: flow 2s infinite ease-in-out, fadeInBottom 9s ease-in;
+      -o-animation: flow 2s infinite ease-in-out, fadeInBottom 9s ease-in;
+      -webkit-animation: flow 2s infinite ease-in-out, fadeInBottom 9s ease-in;
+    }
 }
 /* ------ next arrow ------- */
 
 
 
 /* ------ client ------- */
-ul#sequence li {
-  margin: 0;
-  height: 100vh; width: 100%;
-  top: 0; left: 0;
-	justify-content: center;
-	align-items: center;
+ul#sequence {
+  li {
+      margin: 0;
+      height: 100vh; width: 100%;
+      top: 0; left: 0;
+      justify-content: center;
+      align-items: center;
 
-  display: flex;
-  position: fixed;
-}
-#sequence li div {
-  padding: 10px;
-}
-ul#sequence li:nth-child(1) {
-    z-index: 4;
-}
-ul#sequence li:nth-child(2) {
-    z-index: 3;
-    display: none;
-}
-ul#sequence li:nth-child(3) {
-    z-index: 2;
-    display: none;
-}
-ul#sequence li:nth-child(4) {
-    z-index: 1;
-    display: none;
-}
+      display: flex;
+      position: fixed;
 
-ul#sequence li div {
-    font-family: monospace, cursive;
-    text-align: center;
+      &:nth-child(1) {
+          z-index: 4;
+      }
+      &:nth-child(2) {
+          z-index: 3;
+          display: none;
+      }
+      &:nth-child(3) {
+          z-index: 2;
+          display: none;
+      }
+      &:nth-child(4) {
+          z-index: 1;
+          display: none;
+      }
 
-    animation: fadeInBottom 5s;
-    -o-animation: fadeInBottom 5s;
-    -webkit-animation: fadeInBottom 5s;
+      div {
+          padding: 10px;
+          font-family: monospace, cursive;
+          text-align: center;
+
+          animation: fadeInBottom 5s;
+          -o-animation: fadeInBottom 5s;
+          -webkit-animation: fadeInBottom 5s;
+      }
+  }
 }
 
 #sequence li .sequence:nth-child(1) {
@@ -122,11 +130,6 @@ ul#sequence li div {
     -webkit-animation: fadeInBottom 7s ease-in;
 }
 
-.nextArrow i {
-  animation: flow 2s infinite ease-in-out, fadeInBottom 9s ease-in;
-  -o-animation: flow 2s infinite ease-in-out, fadeInBottom 9s ease-in;
-  -webkit-animation: flow 2s infinite ease-in-out, fadeInBottom 9s ease-in;
-}
 
 /* ------ animations ------- */
 .fadeInAnimation {

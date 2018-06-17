@@ -48,7 +48,7 @@ const WebSocket = require('ws'),
 
 // let connectedClients=[];
 let wordsBuffer = [];
-wordsBuffer = ['hi', 'this', 'is', 'googie'];
+wordsBuffer = ['{"textFly":"hi"}', '{"textFly":"this"}',  '{"textFly":"is"}', '{"textFly":"Googie"}'];
 let INTERVAL = 100;
 // const INTERVAL_COMMAND = '***';
 
@@ -74,7 +74,8 @@ wss.on('connection', (ws, req) => {
         // } else if (message.indexOf(INTERVAL_COMMAND) !== -1) {
         //     INTERVAL = parseInt(message.slice(3)) || 10;
         } else if (msg.textFly && msg.textFly.length) {
-            wordsBuffer.push(msg.textFly);
+            // wordsBuffer.push(msg.textFly);
+            wordsBuffer.push(message);
         }
   	});
 });
