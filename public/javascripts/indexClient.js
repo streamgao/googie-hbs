@@ -26,7 +26,6 @@ const NON_SPACE_SPECIALCHA=/\d|\W/g;
 const hostlight = '206.189.162.188:8080';
 // '206.189.162.188:8080';
 
-
 const socket= new WebSocket('ws://' + hostlight);
 socket.onopen = () => {
     function sendWord (refocus) {

@@ -2,20 +2,21 @@
   <div id='sessionInstruction' class='adminCommand'>
        <!--input id='instruction' autocomplete='off' /-->
        <textarea name='message' autocomplete='off' rows='5' style='width: 90%'>session instruction</textarea>
-       <button id='sessionInsBtn'>Send new session instruction</button>
+       <button id='sessionInsBtn'>Send session instruct</button>
   </div>
-
   <div id='customizedText' class='adminCommand'>
        <!--input id='text' autocomplete='off' /-->
        <textarea name='message' autocomplete='off' rows='5' style='width: 90%'>customized text</textarea>
        <button id='cusTextBtn'>Send customized text</button>
   </div>
-
-  <input id='number' class='adminCommand' type='number'></input>
+  <div id='interval' class='adminCommand'>
+      <input id='intervalNum' class='adminCommand' type='number'></input>
+      <button id='intervalBtn'>Change Interval</button>
+  </div>
 
   <div class='separator'></div>
   <ul id='control'>
-    <button>Hi.</button>
+    <button>Hi!</button>
     <button>Welcome to</button>
     <button>Googie</button>
     <button>I'm your new art-ificial word speaker today.</button>
@@ -36,45 +37,4 @@
   </ul>
 </div>
 
-<script type='text/javascript'>
-const hostlight = '206.189.162.188:8080';
-const socket= new WebSocket('ws://' + hostlight);
-socket.onopen = function() {
-    document.getElementById('control').addEventListener('click', evt => {
-        evt.preventDefault();
-        if ( evt.target.nodeName === 'BUTTON' ) {
-            const textFly = evt.target.innerText;
-            const message = {
-                textFly
-            };
-            socket.send(JSON.stringify(message));
-        }
-    });
-
-    document.getElementById('sessionInsBtn').addEventListener('click', evt => {
-        evt.preventDefault();
-        const sessionInstruction = document.querySelector('#sessionInstruction textarea') && document.querySelector('#sessionInstruction textarea').value;
-        const message = {
-            sessionInstruction
-        };
-        socket.send(JSON.stringify(message));
-    });
-
-    document.getElementById('cusTextBtn').addEventListener('click', evt => {
-        evt.preventDefault();
-        const textFly = document.querySelector('#customizedText textarea') && document.querySelector('#customizedText textarea').value;
-        const message = {
-            textFly
-        };
-        socket.send(JSON.stringify(message));
-    });
-};
-
-socket.onmessage = function (evt) {
-    console.log(evt.data);
-};
-
-socket.onclose = function() {
-    console.log('Connection is closed...');
-};
-</script>
+<script type='text/javascript' src='javascripts/admin.js'></script>

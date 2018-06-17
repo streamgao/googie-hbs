@@ -71,8 +71,10 @@ wss.on('connection', (ws, req) => {
             //        allClients[i].send(COMMAND2);
             //    }
             // } // don't send you yao
-        // } else if (message.indexOf(INTERVAL_COMMAND) !== -1) {
-        //     INTERVAL = parseInt(message.slice(3)) || 10;
+        } else if (msg.interval && msg.interval.length) {
+            INTERVAL = parseInt(msg.interval) || 10;
+            console.log(INTERVAL, '..interval...Change TO ', msg);
+
         } else if (msg.textFly && msg.textFly.length) {
             // wordsBuffer.push(msg.textFly);
             wordsBuffer.push(message);

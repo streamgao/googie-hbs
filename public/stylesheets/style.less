@@ -32,12 +32,25 @@ button {
     input {
       width: auto;
     }
+    // button {
+    //   height: auto;
+    // }
     .adminCommand {
         width: 45%; height: auto;  min-height: 40px;
-        display: inline-block; margin: 10px;
+        display: inline-block; margin: 5px;
     }
 }
-
+@media (max-width: 500px) {
+  .admin {
+      input {
+        width: 100%;
+      }
+      .adminCommand {
+          width: 90%; height: auto;  min-height: 40px;
+          display: inline-block; margin: 5px;
+      }
+  }
+}
 .separator {
   width: 100%; height: 20px;
   border-bottom: 2px dashed;
