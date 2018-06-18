@@ -77,3 +77,79 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+
+
+
+
+
+
+/* -------------socket------------- */
+const WebSocket = require('ws'),
+    WebSocketServer = WebSocket.Server,
+    wss = new WebSocketServer({
+        port: 8080
+    });
+
+// let connectedClients=[];
+let wordsBuffer = [];
+wordsBuffer = ['{"textFly":"hi"}', '{"textFly":"this"}',  '{"textFly":"is"}', '{"textFly":"Googie"}'];
+let INTERVAL = 1000;
+
+wss.on('connection', (ws, req) => {
+    // begin send message once there is a connection
+  	const ip = req.connection.remoteAddress;
+    console.log('new connection ip: ', ip);
+    // connectedClients.push(ip);
+  	ws.on('message', message => {
+        try {
+            const msg = JSON.parse(message);
+            // console.log('mes coming', message);
+            if (msg.sessionInstruction && msg.sessionInstruction.length) {
+                wss.clients.forEach(client => {
+                    if (client !== ws && client.readyState === WebSocket.OPEN) {
+                        client.send(message);
+                    }
+                });
+                // const allClients = wss.clients;
+                // for (var i = 1; i < allClients.length; i++) {
+                //    if (allClients[i] !== ws && allClients[i].readyState === WebSocket.OPEN) {
+                //        allClients[i].send(COMMAND2);
+                //    }
+                // } // don't send to yao
+            } else if (msg.interval && msg.interval.length) {
+                INTERVAL = parseInt(msg.interval) || 1000;
+                clearInterval(sendWordInterval);
+                console.log(INTERVAL, '..interval...Change TO ', msg);
+                sendWordInterval = setInterval(sendWordToUnity, INTERVAL);
+            } else if (msg.textFly && msg.textFly.length) {
+                // wordsBuffer.push(msg.textFly);
+                wordsBuffer.push(message);
+            }
+        } catch (e) {
+            debug('error ' + err);
+        }
+  	});
+});
+
+
+function sendWordToUnity () {
+    // typeof(wss.clients) set
+    if (wordsBuffer.length) {
+        console.log(INTERVAL, '..words buffer: ', wordsBuffer);
+        const wordToSend = wordsBuffer.shift();
+        wss.clients.forEach(client => {
+            if (client.readyState === WebSocket.OPEN) {
+                client.send(wordToSend);
+            }
+        });
+        /*
+        const client = wss.clients[0];
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(wordToSend);
+        }
+        */
+    }
+};
+// limit, up speed is INTERVAL ms
+let sendWordInterval = setInterval(sendWordToUnity, INTERVAL);
