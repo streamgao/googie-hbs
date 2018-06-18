@@ -49,28 +49,31 @@ const WebSocket = require('ws'),
 // let connectedClients=[];
 let wordsBuffer = [];
 wordsBuffer = ['{"textFly":"hi"}', '{"textFly":"this"}',  '{"textFly":"is"}', '{"textFly":"Googie"}'];
-let INTERVAL = 100;
-// const INTERVAL_COMMAND = '***';
+let INTERVAL = 1000;
 
 wss.on('connection', (ws, req) => {
+    // begin send message once there is a connection
   	const ip = req.connection.remoteAddress;
     console.log('new connection ip: ', ip);
+    // if (INTERVAL === 99999) {
+    //     INTERVAL = 1000;
+    // }
     // connectedClients.push(ip);
   	ws.on('message', message => {
         const msg = JSON.parse(message);
         // console.log('mes coming', message);
-        // const allClients = wss.clients;
         if (msg.sessionInstruction && msg.sessionInstruction.length) {
-            wss.clients.forEach(function each(client) {
+            wss.clients.forEach(client => {
                 if (client !== ws && client.readyState === WebSocket.OPEN) {
                     client.send(message);
                 }
             });
+            // const allClients = wss.clients;
             // for (var i = 1; i < allClients.length; i++) {
             //    if (allClients[i] !== ws && allClients[i].readyState === WebSocket.OPEN) {
             //        allClients[i].send(COMMAND2);
             //    }
-            // } // don't send you yao
+            // } // don't send to yao
         } else if (msg.interval && msg.interval.length) {
             INTERVAL = parseInt(msg.interval) || 10;
             console.log(INTERVAL, '..interval...Change TO ', msg);
@@ -84,6 +87,7 @@ wss.on('connection', (ws, req) => {
 
 // limit, up speed is INTERVAL ms
 setInterval(() => {
+    // typeof(wss.clients) set
     if (wordsBuffer.length) {
         console.log('words buffer: ', wordsBuffer);
         const wordToSend = wordsBuffer.shift();
