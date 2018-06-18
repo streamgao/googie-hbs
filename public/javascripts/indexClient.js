@@ -23,16 +23,18 @@ document.getElementById('sequence').addEventListener('click', e => {
 
 /* -----------socket----------- */
 const NON_SPACE_SPECIALCHA=/\d|\W/g;
+const SHORT_SENTENCE_30=/(\w|\s){30}/g;
+
 const hostlight = '206.189.162.188:8080';
-// '206.189.162.188:8080';
 
 const socket= new WebSocket('ws://' + hostlight);
 socket.onopen = () => {
     function sendWord (refocus) {
         const textFly = document.getElementById('word').value;
-        if (textFly.match(NON_SPACE_SPECIALCHA)) {
-            window.alert('the word cannot contain any number or mark.\nPlease submit a valid word!');
-        } else if ( textFly && textFly.length ) {
+        // if (textFly.match(NON_SPACE_SPECIALCHA)) {
+        //     window.alert('the word cannot contain any number or mark.\nPlease submit a valid word!');
+        // } else
+        if ( textFly && textFly.length ) {
             const msg = { textFly };
             socket.send(JSON.stringify(msg));
         }

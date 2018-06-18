@@ -60,36 +60,41 @@ wss.on('connection', (ws, req) => {
     // }
     // connectedClients.push(ip);
   	ws.on('message', message => {
-        const msg = JSON.parse(message);
-        // console.log('mes coming', message);
-        if (msg.sessionInstruction && msg.sessionInstruction.length) {
-            wss.clients.forEach(client => {
-                if (client !== ws && client.readyState === WebSocket.OPEN) {
-                    client.send(message);
-                }
-            });
-            // const allClients = wss.clients;
-            // for (var i = 1; i < allClients.length; i++) {
-            //    if (allClients[i] !== ws && allClients[i].readyState === WebSocket.OPEN) {
-            //        allClients[i].send(COMMAND2);
-            //    }
-            // } // don't send to yao
-        } else if (msg.interval && msg.interval.length) {
-            INTERVAL = parseInt(msg.interval) || 10;
-            console.log(INTERVAL, '..interval...Change TO ', msg);
-
-        } else if (msg.textFly && msg.textFly.length) {
-            // wordsBuffer.push(msg.textFly);
-            wordsBuffer.push(message);
+        try {
+            const msg = JSON.parse(message);
+            // console.log('mes coming', message);
+            if (msg.sessionInstruction && msg.sessionInstruction.length) {
+                wss.clients.forEach(client => {
+                    if (client !== ws && client.readyState === WebSocket.OPEN) {
+                        client.send(message);
+                    }
+                });
+                // const allClients = wss.clients;
+                // for (var i = 1; i < allClients.length; i++) {
+                //    if (allClients[i] !== ws && allClients[i].readyState === WebSocket.OPEN) {
+                //        allClients[i].send(COMMAND2);
+                //    }
+                // } // don't send to yao
+            } else if (msg.interval && msg.interval.length) {
+                INTERVAL = parseInt(msg.interval) || 1000;
+                clearInterval(sendWordInterval);
+                console.log(INTERVAL, '..interval...Change TO ', msg);
+                sendWordInterval = setInterval(sendWordToUnity, INTERVAL);
+            } else if (msg.textFly && msg.textFly.length) {
+                // wordsBuffer.push(msg.textFly);
+                wordsBuffer.push(message);
+            }
+        } catch (e) {
+            console.log('error', err);
         }
   	});
 });
 
-// limit, up speed is INTERVAL ms
-setInterval(() => {
+
+function sendWordToUnity () {
     // typeof(wss.clients) set
     if (wordsBuffer.length) {
-        console.log('words buffer: ', wordsBuffer);
+        console.log(INTERVAL, '..words buffer: ', wordsBuffer);
         const wordToSend = wordsBuffer.shift();
         wss.clients.forEach(client => {
             if (client.readyState === WebSocket.OPEN) {
@@ -103,6 +108,8 @@ setInterval(() => {
         }
         */
     }
-}, INTERVAL);
+};
+// limit, up speed is INTERVAL ms
+let sendWordInterval = setInterval(sendWordToUnity, INTERVAL);
 
 module.exports = app;
