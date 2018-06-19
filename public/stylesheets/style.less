@@ -1,17 +1,21 @@
 /* ------------ shared ------------ */
 * { margin: 0; 	padding: 0; font-size: 18px;}
+body {
+  background: black; color: white;
+}
 #container {
   font: 18px monospace, cursive;
+  div input {
+    box-sizing: border-box;
+    border: 2px solid gray; font-size: inherit;
+    height: 50px; width: 100%; display: block;
+  }
 }
 #input {
   width: 100%;
   text-align: center;
 }
-div input {
-  box-sizing: border-box;
-  border: 2px solid gray; font-size: inherit;
-  height: 50px; width: 100%; display: block;
-}
+
 textarea {
   font-size: inherit;
 }
@@ -23,6 +27,20 @@ button {
   font: 20px monospace, cursive;
   color: white;  background: #999; //rgb(80, 200, 200);
 }
+.darkTheme {
+  button {
+      border: white 2px solid;
+      color: white; background: black;
+  }
+  #word {
+    background: black;
+    border-top: none; border-left: none; border-right: none;
+    border-bottom: white 1px solid;
+    margin-bottom: 20px;
+  }
+}
+
+/* -- admin -- */
 #control button {
   height: auto;
   width: auto;
@@ -74,14 +92,14 @@ button {
     i {
       display: inline-block;
       padding: 30px;
-      border: solid black;
+      border: solid white;
       border-width: 0 3px 3px 0;
       transform: rotate(45deg);
       -webkit-transform: rotate(45deg);
 
-      animation: flow 2s infinite ease-in-out, fadeInBottom 9s ease-in;
-      -o-animation: flow 2s infinite ease-in-out, fadeInBottom 9s ease-in;
-      -webkit-animation: flow 2s infinite ease-in-out, fadeInBottom 9s ease-in;
+      animation: flow 2s infinite ease-in-out, fadeInBottom 8s ease-in;
+      -o-animation: flow 2s infinite ease-in-out, fadeInBottom 8s ease-in;
+      -webkit-animation: flow 2s infinite ease-in-out, fadeInBottom 8s ease-in;
     }
 }
 /* ------ next arrow ------- */
