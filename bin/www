@@ -111,6 +111,8 @@ wss.on('connection', (ws, req) => {
                         client.send(message);
                     }
                 });
+                // only cut the first 15
+                wordsBuffer = wordsBuffer.slice(0, 15);
                 // const allClients = wss.clients;
                 // for (var i = 1; i < allClients.length; i++) {
                 //    if (allClients[i] !== ws && allClients[i].readyState === WebSocket.OPEN) {
@@ -130,6 +132,7 @@ wss.on('connection', (ws, req) => {
             debug('error ' + err);
         }
   	});
+
 });
 
 
@@ -138,11 +141,17 @@ function sendWordToUnity () {
     if (wordsBuffer.length) {
         console.log(INTERVAL, '..words buffer: ', wordsBuffer);
         const wordToSend = wordsBuffer.shift();
-        wss.clients.forEach(client => {
-            if (client.readyState === WebSocket.OPEN) {
-                client.send(wordToSend);
-            }
-        });
+        try {
+          wss.clients.forEach(client => {
+              if (client.readyState === WebSocket.OPEN) {
+                  client.send(wordToSend);
+              }
+          });
+        } catch (e) {
+          // DEBUG:
+          debug('error send: ', e);
+        }
+
         /*
         const client = wss.clients[0];
         if (client.readyState === WebSocket.OPEN) {
