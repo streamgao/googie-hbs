@@ -49,20 +49,25 @@ socket.onopen = () => {
         if (!inTypeMode) {
             inTypeMode = true;
             const textFly = document.getElementById('word').value;
+            let shouldSend = true;
             if (currentRule.name === 'singleword') {
                 if (!textFly.match(currentRule.rule)) {
                     window.alert(currentRule.alert);
+                    shouldSend = false;
                 }
             } else if (currentRule.name === 'char30') {
                 if (textFly.length > 30) {
                     window.alert(currentRule.alert);
+                    shouldSend = false;
                 }
             }
 
-            else if ( textFly && textFly.length ) {
+            if ( shouldSend && textFly && textFly.length ) {
                 const msg = { textFly };
                 socket.send(JSON.stringify(msg));
+                console.log('...getting, textFly', textFly);
             }
+
             if (refocus) {
                 // hide keyboard then focus
                 document.getElementById('word').blur();
