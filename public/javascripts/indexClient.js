@@ -22,42 +22,61 @@ document.getElementById('sequence').addEventListener('click', e => {
 
 
 /* -----------socket----------- */
-const NON_SPACE_SPECIALCHA=/\d|\W/g;
-const SHORT_SENTENCE_30=/(\w|\s){30}/g;
-
 const hostlight = '206.189.162.188:8080';
 
+const SINGLE_WORD = /^[a-zA-Z]*$/g;
+const SHORT_SENTENCE_30 = /(\w|\s){30}/g;
+const sessionRules = {
+    singleword: {
+        rule: SINGLE_WORD,
+        alert: 'the word cannot contain any number or mark.\nPlease submit a valid word!'
+    },
+    char30: {
+        rule: SHORT_SENTENCE_30,
+        alert: 'too many! you can only type 30 characters!'
+    }
+};
+
+let inTypeMode = false;
 const socket= new WebSocket('ws://' + hostlight);
 socket.onopen = () => {
     function sendWord (refocus) {
-        const textFly = document.getElementById('word').value;
-        // if (textFly.match(NON_SPACE_SPECIALCHA)) {
-        //     window.alert('the word cannot contain any number or mark.\nPlease submit a valid word!');
-        // } else
-        if ( textFly && textFly.length ) {
-            const msg = { textFly };
-            socket.send(JSON.stringify(msg));
-        }
-        document.getElementById('word').value = '';
+        if (!inTypeMode) {
+            inTypeMode = true;
+            const textFly = document.getElementById('word').value;
+            const match = textFly.match(SINGLE_WORD);
+            if ( !match || (match && match[0] && match[0].length !== textFly.length)) {
+                // console.log(textFly, 'textFly.match(SINGLE_WORD)', textFly.match(SINGLE_WORD));
+                window.alert('the word cannot contain any number or mark.\nPlease submit a valid word!');
+            }
 
-        if (refocus) {
-            // hide keyboard then focus
-            document.getElementById('word').blur();
-            document.getElementById('word').click();
+            else if ( textFly && textFly.length ) {
+                const msg = { textFly };
+                socket.send(JSON.stringify(msg));
+            }
+            if (refocus) {
+                // hide keyboard then focus
+                document.getElementById('word').blur();
+                document.getElementById('word').click();
+            }
+
+            document.getElementById('word').value = '';
         }
     };
     document.getElementById('sendButton').addEventListener('click', e => { // click submit button
         e.preventDefault();
         sendWord(false);
+        inTypeMode = false;
     });
-
     document.addEventListener('keydown', e => {  // enter code
         if ( e.keyCode === 13 ) {
             sendWord(true);
+            inTypeMode = false;
         }
     });
     document.addEventListener('focusout', e => {  // enter code
         sendWord(true);
+        inTypeMode = false;
     });
 };
 
