@@ -110,15 +110,20 @@ socket.onmessage = evt => {
             document.getElementById('instructionInInput').innerHTML = msg.sessionInstruction;
         }
         // rule change
-        console.log('sessionRule', msg);
         if (msg.sessionRule) {
             console.log('sessionRule', msg);
             currentRule = sessionRules[msg.sessionRule] || sessionRules.char30;
         }
     } catch (e) {
-        console.log('..something wrong here..', evt.data);
+        console.log('..something wrong here..', evt.data, e);
     }
 };
 socket.onclose = () => {
     console.log('Connection is closed...');
+    // fadeInAnimation
+    const sessionCommandList = document.getElementById('sessionCommandList');
+    sessionCommandList.style.display = 'flex';
+    sessionCommandList.classList.add('fadeInAnimation');
+
+    document.getElementById('instructionInInput').innerHTML = 'Oops, something went wrong, you are offline with Googie. Can you try refresh the page?';
 };

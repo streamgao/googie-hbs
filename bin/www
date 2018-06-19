@@ -94,6 +94,7 @@ const WebSocket = require('ws'),
 // let connectedClients=[];
 let wordsBuffer = [];
 wordsBuffer = ['{"textFly":"hi"}', '{"textFly":"this"}',  '{"textFly":"is"}', '{"textFly":"Googie"}'];
+// wordsBuffer = [];
 let INTERVAL = 1000;
 
 wss.on('connection', (ws, req) => {
@@ -104,14 +105,26 @@ wss.on('connection', (ws, req) => {
   	ws.on('message', message => {
         try {
             const msg = JSON.parse(message);
-            if (msg.sessionInstruction && msg.sessionInstruction.length || (msg.sessionRule && msg.sessionRule.length)) {
+
+            // validation
+            let shouldSend = false;
+            const validValues = ['sessionInstruction', 'sessionRule', 'questionFly'];
+            validValues.forEach(val => {
+                if (msg[val] && msg[val].length) {
+                    shouldSend = true;
+                }
+            });
+            if (shouldSend) {
+                console.log('..shouldSend..', message);
                 wss.clients.forEach(client => {
                     if (client !== ws && client.readyState === WebSocket.OPEN) {
                         client.send(message);
                     }
                 });
                 // only cut the first 15
-                wordsBuffer = wordsBuffer.slice(0, 15);
+                if (msg.sessionInstruction) {
+                    wordsBuffer = wordsBuffer.slice(0, 15);
+                }
                 // const allClients = wss.clients;
                 // for (var i = 1; i < allClients.length; i++) {
                 //    if (allClients[i] !== ws && allClients[i].readyState === WebSocket.OPEN) {
@@ -138,8 +151,8 @@ wss.on('connection', (ws, req) => {
 function sendWordToUnity () {
     // typeof(wss.clients) set
     if (wordsBuffer.length) {
-        console.log(INTERVAL, '..words buffer: ', wordsBuffer);
         const wordToSend = wordsBuffer.shift();
+        console.log(INTERVAL, '..sending from words buffer: ', wordToSend);
         try {
           wss.clients.forEach(client => {
               if (client.readyState === WebSocket.OPEN) {
@@ -147,16 +160,8 @@ function sendWordToUnity () {
               }
           });
         } catch (e) {
-          // DEBUG:
           debug('error send: ', e);
         }
-
-        /*
-        const client = wss.clients[0];
-        if (client.readyState === WebSocket.OPEN) {
-            client.send(wordToSend);
-        }
-        */
     }
 };
 // limit, up speed is INTERVAL ms

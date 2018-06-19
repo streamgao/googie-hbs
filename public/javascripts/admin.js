@@ -1,5 +1,6 @@
 const hostlight = '206.189.162.188:8080';
 const socket= new WebSocket('ws://' + hostlight);
+let sessionId = 0;
 socket.onopen = function() {
     // pre defined text command
     document.getElementById('control').addEventListener('click', evt => {
@@ -16,9 +17,31 @@ socket.onopen = function() {
     // new session instruction
     document.getElementById('sessionInsBtn').addEventListener('click', evt => {
         evt.preventDefault();
-        const sessionInstruction = document.querySelector('#sessionInstruction textarea') && document.querySelector('#sessionInstruction textarea').value;
+        sessionId ++;
+        const x = document.getElementById('sessionInstruction').selectedIndex;
+        const sessionInstruction = document.getElementById('sessionInstruction').options && document.getElementById('sessionInstruction').options[x].text;
         const message = {
-            sessionInstruction
+            sessionInstruction,
+            sessionId
+        };
+        // console.log('.message', message, sessionInstruction);
+        socket.send(JSON.stringify(message));
+    });
+    document.getElementById('questionFlySelectBtn').addEventListener('click', evt => {
+        evt.preventDefault();
+        const x = document.getElementById('questionFlySelect').selectedIndex;
+        const questionFly = document.getElementById('questionFlySelect').options && document.getElementById('questionFlySelect').options[x].text;
+        const message = {
+            questionFly
+        };
+        socket.send(JSON.stringify(message));
+    });
+
+    document.getElementById('questionFlyBtn').addEventListener('click', evt => {
+        evt.preventDefault();
+        const questionFly = document.querySelector('#questionFly textarea') && document.querySelector('#questionFly textarea').value;
+        const message = {
+            questionFly
         };
         socket.send(JSON.stringify(message));
     });
@@ -73,16 +96,16 @@ socket.onclose = function() {
 const sesstionsInfo = [
   {
       sessionId: 1,
-      sessionInstruction: 'Good. So tell me what is your name?',
+      sessionInstruction: 'Good. So tell me what is your name?(single word)',
       sessionRule: 'singleword',
       questionFly: ['Hey, good evening', 'Hey'],
       textFly: 'Stream'
   },
   {
       sessionId: 2,
-      sessionInstruction: 'How are you doing today?',
+      sessionInstruction: 'How are you doing today?(single word)',
       sessionRule: 'singleword',
-      questionFly: ['Googie is feeling', ' is a good feeling', 'can be a random emotion'],
+      questionFly: ['Googie is feeling', 'is a good feeling', 'can be a random emotion'],
       textFly: 'fantastic'
   },
   {

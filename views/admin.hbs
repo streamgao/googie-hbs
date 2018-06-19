@@ -1,14 +1,36 @@
 <div id='container' class='admin' style='padding: 10px'>
-  <div id='sessionInstruction' class='adminCommand'>
-       <!--input id='instruction' autocomplete='off' /-->
+  <!--div id='sessionInstruction' class='adminCommand'>
        <textarea name='message' autocomplete='off' rows='5' style='width: 90%'>session instruction</textarea>
        <p>Session 2: Now give me a short sentence</p>
-       <p>Session 2: Now give me a short sentence</p>
        <button id='sessionInsBtn'>session instruction</button>
+  </div-->
+  <div class='adminCommand'>
+      <select id='sessionInstruction'>
+          <option>Good. So tell me what's your name?(single word)</option>
+          <option>How are you doing today?(single word)</option>
+          <option>Would you like to say something to Googie?(up to 30 characters)</option>
+          <option>What’s the best Wi-Fi name you’ve seen?(up to 30 characters)</option>
+          <option>In one sentence, how would you sum up Googie?(up to 30 characters)</option>
+          <option>What is the funniest joke you know by heart?(up to 30 characters)</option>
+          <option>...oh, jokes are too funny to handle...thanks for participating!</option>
+      </select>
+      <button id='sessionInsBtn'>session instruction</button>
   </div>
+  <div class='adminCommand'>
+      <select id='questionFlySelect'>
+          <option>good evening</option><option>Hey</option>
+          <option>Googie is feeling</option> <option>is a good feeling</option> <option>can be a random emotion</option>
+          <option>Hey, good evening</option> <option>I like been given compliment</option><option>thank you</option><option>sorry to hear that</option><option>I am shy</option>
+          <option>Googie has strong connections to WiFi</option><option>For example</option><option>I like</option><option>is my best mate</option>
+          <option>you know</option><option>I am</option><option>someone tells me that</option>
+          <option>let me tell you something</option><option>do you know what</option>
+          <option>I lost my lexicon</option><option>Dead</option>
+      </select>
+      <button id='questionFlySelectBtn'>Question Fly on screen</button>
+  </div>
+  <div class='separator'></div>
   <div id='questionFly' class='adminCommand'>
-       <!--input id='text' autocomplete='off' /-->
-       <textarea name='message' autocomplete='off' rows='5' style='width: 90%'>customized text</textarea>
+       <textarea name='message' autocomplete='off' rows='5' style='width: 90%'>question on screen</textarea>
        <button id='questionFlyBtn'>question fly on screen</button>
   </div>
   <div id='textFly' class='adminCommand'>
@@ -17,7 +39,7 @@
        <button id='textFlyBtn'>Send customized text</button>
   </div>
   <div id='interval' class='adminCommand'>
-      <input id='intervalNum' class='adminCommand' type='number'></input>
+      <input id='intervalNum' class='adminCommand' type='number' min='100' step='10' value='1000'></input>
       <button id='intervalBtn'>Change Interval</button>
   </div>
   <button id='singleword'>singleword</button>
