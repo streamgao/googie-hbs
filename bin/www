@@ -104,8 +104,7 @@ wss.on('connection', (ws, req) => {
   	ws.on('message', message => {
         try {
             const msg = JSON.parse(message);
-            // console.log('mes coming', message);
-            if (msg.sessionInstruction && msg.sessionInstruction.length) {
+            if (msg.sessionInstruction && msg.sessionInstruction.length || (msg.sessionRule && msg.sessionRule.length)) {
                 wss.clients.forEach(client => {
                     if (client !== ws && client.readyState === WebSocket.OPEN) {
                         client.send(message);

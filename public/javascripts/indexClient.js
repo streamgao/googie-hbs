@@ -28,26 +28,35 @@ const SINGLE_WORD = /^[a-zA-Z]*$/g;
 const SHORT_SENTENCE_30 = /(\w|\s){30}/g;
 const sessionRules = {
     singleword: {
+        name: 'singleword',
         rule: SINGLE_WORD,
         alert: 'the word cannot contain any number or mark.\nPlease submit a valid word!'
     },
     char30: {
+        name: 'char30',
         rule: SHORT_SENTENCE_30,
         alert: 'too many! you can only type 30 characters!'
     }
 };
 
+/* global variable */
 let inTypeMode = false;
+let currentRule = sessionRules.singleword;
+
 const socket= new WebSocket('ws://' + hostlight);
 socket.onopen = () => {
     function sendWord (refocus) {
         if (!inTypeMode) {
             inTypeMode = true;
             const textFly = document.getElementById('word').value;
-            const match = textFly.match(SINGLE_WORD);
-            if ( !match || (match && match[0] && match[0].length !== textFly.length)) {
-                // console.log(textFly, 'textFly.match(SINGLE_WORD)', textFly.match(SINGLE_WORD));
-                window.alert('the word cannot contain any number or mark.\nPlease submit a valid word!');
+            if (currentRule.name === 'singleword') {
+                if (!textFly.match(currentRule.rule)) {
+                    window.alert(currentRule.alert);
+                }
+            } else if (currentRule.name === 'char30') {
+                if (textFly.length > 30) {
+                    window.alert(currentRule.alert);
+                }
             }
 
             else if ( textFly && textFly.length ) {
@@ -99,6 +108,12 @@ socket.onmessage = evt => {
             sessionCommandList.classList.add('fadeInAnimation');
 
             document.getElementById('instructionInInput').innerHTML = msg.sessionInstruction;
+        }
+        // rule change
+        console.log('sessionRule', msg);
+        if (msg.sessionRule) {
+            console.log('sessionRule', msg);
+            currentRule = sessionRules[msg.sessionRule] || sessionRules.char30;
         }
     } catch (e) {
         console.log('..something wrong here..', evt.data);
