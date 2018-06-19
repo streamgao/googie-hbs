@@ -1,6 +1,7 @@
 {
   "name": "googie-hbs",
   "version": "1.0.0",
+  "author": "Stream Gao",
   "private": true,
   "scripts": {
     "debug": "DEBUG=googie-hbs:* node ./bin/www",

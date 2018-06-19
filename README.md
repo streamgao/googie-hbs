@@ -11,13 +11,8 @@ open browser:  http://localhost:3000
 
 
 ### Routes
-#### default(none)
+#### default(client)
 i.e. http://localhost:3000
 
-client
-
-#### admin: i.e. http://localhost:3000/admin
-1. session/story breakup
-http://localhost:3000/admin or http://localhost:3000/admin/command
-2. customized text sent
-http://localhost:3000/admin or http://localhost:3000/admin/control
+#### admin
+i.e. http://localhost:3000/admin
